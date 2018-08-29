@@ -25,5 +25,6 @@ Rails.application.routes.draw do
   post '/drawings', to: 'drawings#create'
   patch '/drawings/:id', to: 'drawings#update'
   delete '/drawings/:id', to: 'drawings#destroy'
+  get '/drawings/:id/:follow_id', to: 'drawings#download'
 
 end

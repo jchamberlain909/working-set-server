@@ -7,7 +7,6 @@ class ProjectsController < ApplicationController
     end
 
     def create
-
         project = Project.create(name:params[:name],company_id:@current_user.company.id)
         render json: project
     end
