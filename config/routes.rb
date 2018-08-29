@@ -1,13 +1,29 @@
 Rails.application.routes.draw do
+  # Auth Routes
   post '/login', to: 'auth#login'
 
-  resources :users, only: [:create, :index, :show, :update, :destroy]
-  resources :companies, only: [:create, :index, :show, :update, :destroy]
+  # Users Routes
+  get '/users/:id', to: 'users#show'
+  post '/users', to: 'users#create'
+  patch '/users/:id', to: 'users#update'
+  delete 'users/:id', to: 'users#destroy'
 
-  get '/companies/:company_id/projects', to: 'projects#index'
-  get '/companies/:company_id/projects/:project_id', to: 'projects#show'
-  post '/companies/:company_id/projects', to: 'projects#create'
-  patch 'companies/:company_id/projects/:project_id', to: 'projects#update'
-  delete 'companies/:company_id/projects/:project_id', to: 'projects#destroy'
+  # Companies Routes
+  get '/companies/:id', to: 'companies#show'
+  post '/companies', to: 'companies#create'
+  patch '/companies/:id', to: 'companies#update'
+  delete '/companies/:id', to: 'companies#destroy'
+
+  # Projects Routes
+  get '/projects/:id', to: 'projects#show'
+  post '/projects', to: 'projects#create'
+  patch '/projects/:id', to: 'projects#update'
+  delete '/projects/:id', to: 'projects#destroy'
+
+  # Drawings Routes
+  get '/drawings/:id', to: 'drawings#show'
+  post '/drawings', to: 'drawings#create'
+  patch '/drawings/:id', to: 'drawings#update'
+  delete '/drawings/:id', to: 'drawings#destroy'
 
 end

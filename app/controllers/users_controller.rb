@@ -1,11 +1,13 @@
 class UsersController < ApplicationController
+    before_action :authorize
+    skip_before_action :authorize, only: [:create]
 
-    def index
-        render json: User.all
-    end 
+    skip_before_action :authenticate, only: [:create]
 
     def show
-        render json: User.find(params[:id])
+        # authentication did not encounter errors
+        # Decoded token matched, return user info
+        render json: @current_user
     end
 
     def create
@@ -14,12 +16,15 @@ class UsersController < ApplicationController
     end
 
     def update
-        user = User.find(params[:id])
-        user.update(update_params)
-        render json: user
+        # authentication did not encounter errors
+        # Decoded token matched, return user info
+        @current_user.update(update_params)
+        render json: @current_user
     end
 
     def destroy
+        # authentication did not encounter errors
+        # Decoded token matched, return user info
         User.destroy(params[:id])
         render json: {}
     end
@@ -28,6 +33,15 @@ class UsersController < ApplicationController
 
     def update_params
         params.require(:user).permit(:name, :email)
+    end
+
+    def authorize
+        puts @current_user.id
+        puts params[:id].to_i
+
+        if @current_user.id != (params[:id].to_i)
+            render json: {message:"You don't have permission to view this resource"}, status: 403
+        end
     end
 
 
