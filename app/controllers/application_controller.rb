@@ -3,7 +3,7 @@ class ApplicationController < ActionController::API
 
     before_action :authenticate
 
-    def current_user
+    def authenticate
         authenticate_or_request_with_http_token do |jwt_token, options|
           begin
             decoded_token = JWT.decode(jwt_token, Rails.application.credentials.jwt[:secret])
@@ -20,8 +20,8 @@ class ApplicationController < ActionController::API
         end
     end
 
-    def authenticate
-      @current_user ||= current_user
+    def current_user
+      @current_user ||= authenticate
     end
     
     def logged_in?
