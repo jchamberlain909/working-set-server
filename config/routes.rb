@@ -7,5 +7,6 @@ Rails.application.routes.draw do
   get '/user', to: 'users#show'
 
   resources :company, only: [:create]
-  resources :project, only: [:create, :show]
+  resources :project, only: [:create, :show, :update]
+  
 end

@@ -6,15 +6,31 @@ class ProjectController < ApplicationController
         render json: {
             success: true,
             id:@project.id,
-            name: @project.name,
-            drawings: @project.drawings
+            name: @project.name
+            drawing_link: @project.drawing_link
+            last_updated: @project.updated_at
         }
     end 
 
     def create
-        project = Project.create(name: params[:name])
+        project = Project.create(params.permit(:name,:drawing_link)
         current_user.company.projects << project 
-        render json: {success: true, id: project.id, name: project.name}
+        render json: {success: true, id: project.id, 
+                        name: project.name, drawing_link:project.drawing_link,
+                        last_updated: project.last_updated
+                    }
+    end
+
+    def update
+        @project.update(params.permit(:name, :drawing_link))
+
+        render json: {
+            success: true,
+            id:@project.id,
+            name: @project.name
+            drawing_link: @project.drawing_link
+            last_updated: @project.updated_at
+        }
     end
 
     private 
