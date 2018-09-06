@@ -43,6 +43,7 @@ ActiveRecord::Schema.define(version: 2018_08_28_215252) do
   end
 
   create_table "contacts", force: :cascade do |t|
+    t.integer "company_id"
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -51,7 +52,7 @@ ActiveRecord::Schema.define(version: 2018_08_28_215252) do
   create_table "follows", force: :cascade do |t|
     t.integer "contact_id"
     t.integer "project_id"
-    t.string "status"
+    t.boolean "up_to_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

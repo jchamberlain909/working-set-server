@@ -8,7 +8,7 @@ class AuthController < ApplicationController
         user = User.find_by(email: email)
 
         if user && user.authenticate(password)
-            render json: {success:true, id: user.id, name: user.name, email: user.email,company:user.company, projects:user.projects, token: generate_token(user) }
+            render json: {success:true, id: user.id, name: user.name, email: user.email,company:user.company, token: generate_token(user) }
 
         else 
             render json: { success: false, message: "Incorrect email/password" }, status: 401

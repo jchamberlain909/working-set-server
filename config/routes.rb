@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get '/user', to: 'users#show'
 
   resources :company, only: [:create]
-  resources :project, only: [:create, :show, :update]
-  
+  resources :project, only: [:create, :show, :update, :index]
+  post '/project/:project_id/follow', to: 'follow#create'
+  delete '/project/:project_id/follow/:id', to: 'follow#destroy'
 end
