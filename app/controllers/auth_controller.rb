@@ -8,17 +8,27 @@ class AuthController < ApplicationController
         user = User.find_by(email: email)
 
         if user && user.authenticate(password)
-            @current_user = user
-            render json: { id: user.id, name: user.name, email: user.email, token: generate_token(user) }
+            render json: {success:true, id: user.id, name: user.name, email: user.email,company:user.company, projects:user.projects, token: generate_token(user) }
 
         else 
-            render json: { success: false }, status: 401
+            render json: { success: false, message: "Incorrect email/password" }, status: 401
         end 
     end 
 
     def signup
-        @current_user = User.create(email: params[:email], name: params[:name], password: params[:password])
-        render json: {sucess: true, token: generate_token(@current_user)}
+        @current_user = User.create(email: params[:email], 
+            name: params[:name], password: params[:password],
+            password_confirmation: params[:password_confirmation])
+        
+        if @current_user.valid?
+            render json: {success: true,id: @current_user.id, name: @current_user.name, email: @current_user.email,company:@current_user.company, projects:@current_user.projects, token: generate_token(@current_user)}
+        else 
+            error_message = ""
+            @current_user.errors.full_messages.each{|message|error_message+=(message+", ")}
+            render json: {success: false, message: error_message}
+        end
+
+        
     end 
 
 

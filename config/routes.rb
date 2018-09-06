@@ -5,4 +5,7 @@ Rails.application.routes.draw do
 
   resources :user, only: [ :update, :destroy]
   get '/user', to: 'users#show'
+
+  resources :company, only: [:create]
+  resources :project, only: [:create, :show]
 end

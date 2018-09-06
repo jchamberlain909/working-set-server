@@ -1,4 +1,4 @@
 class Follow < ApplicationRecord
     belongs_to :contact
-    belongs_to :drawing
+    belongs_to :project
 end

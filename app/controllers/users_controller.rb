@@ -5,7 +5,9 @@ class UsersController < ApplicationController
     def show
         # authentication did not encounter errors
         # Decoded token matched, return user info
-        render json: current_user
+        user = current_user
+        render json: {id: user.id, name: user.name, email: user.email,company:user.company, projects:user.projects }
+
     end
 
     def update
@@ -29,7 +31,6 @@ class UsersController < ApplicationController
     end
 
     def authorize
-
         if current_user.id != (params[:id].to_i)
             render json: {message:"You don't have permission to view this resource"}, status: 403
         end

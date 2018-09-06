@@ -51,7 +51,8 @@ ActiveRecord::Schema.define(version: 2018_08_28_215252) do
   end
 
   create_table "drawings", force: :cascade do |t|
-    t.string "type"
+    t.integer "project_id"
+    t.string "drawing_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
