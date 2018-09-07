@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   resources :project, only: [:create, :show, :update, :index]
   post '/project/:project_id/follow', to: 'follow#create'
   delete '/project/:project_id/follow/:id', to: 'follow#destroy'
+  get '/contacts', to: 'contact#index'
 end
