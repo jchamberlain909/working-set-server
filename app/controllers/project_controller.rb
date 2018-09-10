@@ -26,7 +26,26 @@ class ProjectController < ApplicationController
     end
 
     def update
-        @project.update(params.permit(:name, :drawing_link))
+
+        @project.update(params.permit(:name))
+
+        render json: {
+            success: true,
+            project: @project.serialize
+        }
+    end
+
+    def upload
+        if params[:drawing]
+           @project.update(drawing: params[:drawing])
+           if @project.valid?
+               @project.update(drawing_link: url_for(@project.drawing))
+           end
+        else
+            @project.update(drawing_link: params[:drawing_url])
+        end
+
+        @project.drawings_updated(params[:message])
 
         render json: {
             success: true,

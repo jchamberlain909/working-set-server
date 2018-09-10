@@ -2,6 +2,7 @@ class Project < ApplicationRecord
     has_many :follows
     has_many :contacts, through: :follows
     belongs_to :company
+    has_one_attached :drawing
 
     def serialize
         return {
@@ -17,5 +18,9 @@ class Project < ApplicationRecord
                 }
             }
         }
+    end 
+
+    def drawings_updated message
+        puts 'send emails'
     end 
 end
