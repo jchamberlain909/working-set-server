@@ -5,7 +5,7 @@ class ProjectController < ApplicationController
     def index
         render json:{
             success:true,
-            projects: current_user.projects.map{|project| {id:project.id, name:project.name}}
+            projects: current_user.projects.map{|project| {id:project.id, name:project.name, last_updated: project.updated_at}}
         }
     end
 
