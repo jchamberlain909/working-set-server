@@ -13,4 +13,6 @@ Rails.application.routes.draw do
   post '/project/:project_id/follow', to: 'follow#create'
   delete '/project/:project_id/follow/:id', to: 'follow#destroy'
   get '/contacts', to: 'contact#index'
+
+  get '/download/:follow_id', to: 'follow#download'
 end

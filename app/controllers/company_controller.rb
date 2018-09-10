@@ -3,6 +3,9 @@ class CompanyController < ApplicationController
     # skip_before_action :authorize, only: [:create]
 
     def show
+        if current_user.company == nil
+            render json: {success:true, company: nil}            
+        end
         company = current_user.company
         render json: {
             success: true,

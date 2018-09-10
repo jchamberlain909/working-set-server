@@ -49,3 +49,4 @@ gem "aws-sdk-s3", require: false
 gem "jwt"
 
 # gem 'active_model_serializers', '~> 0.10.0'
+gem 'hashids'

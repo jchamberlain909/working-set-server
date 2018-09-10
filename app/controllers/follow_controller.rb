@@ -1,5 +1,7 @@
 class FollowController < ApplicationController 
     before_action :authorize
+    skip_before_action :authenticate, only: [:download]
+    skip_before_action :authorize, only: [:download]
 
     def create
         contact = Contact.find_or_create_by(
@@ -28,6 +30,13 @@ class FollowController < ApplicationController
         render json: {success:true}
     end 
 
+    def download
+        hashids = Hashids.new("this is my salt", 8)
+        follow = Follow.find(hashids.decode(params[:follow_id])[0])
+        
+        follow.update(up_to_date: true)
+        redirect_to follow.project.drawing_link
+    end 
 
     private 
 

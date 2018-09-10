@@ -21,6 +21,14 @@ class Project < ApplicationRecord
     end 
 
     def drawings_updated message
-        puts 'send emails'
+        hashids = Hashids.new("this is my salt", 8)
+        self.follows.each do |follow|
+            follower_url = "localhost:3000/download/#{hashids.encode(follow.id)}"
+            ProjectMailer.with(
+                follower_url: follower_url,
+                 message: message, 
+                 project_name: self.name,
+                 email:follow.contact.email).drawing_update.deliver_later
+        end 
     end 
 end
