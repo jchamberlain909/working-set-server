@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :user, only: [ :update, :destroy]
   get '/user', to: 'users#show'
 
-  resources :company, only: [:create]
+  resources :company, only: [:create, :update]
   get '/company', to: 'company#show'
   resources :project, only: [:create, :show, :update, :index]
   post '/project/:id/upload', to: 'project#upload'

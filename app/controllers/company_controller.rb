@@ -1,6 +1,6 @@
 class CompanyController < ApplicationController
-    # before_action :authorize
-    # skip_before_action :authorize, only: [:create]
+    before_action :authorize
+    skip_before_action :authorize, only: [:create, :show]
 
     def show
         if current_user.company == nil
@@ -12,7 +12,8 @@ class CompanyController < ApplicationController
             company: {
                 id: company.id,
                 name: company.name,
-                contacts: company.contacts.map{|contact| contact.email}
+                contacts: company.contacts.map{|contact| contact.email},
+                users: company.users.map{|user|{id:user.id, name:user.name, email:user.email}}
             }
         }
     end 
@@ -29,5 +30,27 @@ class CompanyController < ApplicationController
             }
         }
     end 
+
+    def update
+        company = Company.find(params[:id])
+        company.update(params.permit(:name))
+        render json: {
+            success: true,
+            company: {
+                id: company.id,
+                name: company.name,
+                contacts: company.contacts.map{|contact| contact.email},
+                users: company.users.map{|user|{id:user.id, name:user.name, email:user.email}}
+            }
+        }
+    end
+
+    private 
+
+    def authorize
+        if current_user.company_id != params[:id].to_i
+            render json: {success: false, message: "You are not authorized to view this resource"}
+        end
+    end
     
 end 

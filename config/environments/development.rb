@@ -30,14 +30,14 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options)
   config.active_storage.service = :local
 
-  # Don't care if the mailer can't send.
+  # Mailer
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.smtp_settings = {
     :address => "email-smtp.us-east-1.amazonaws.com",
     :port => 587,
-    :user_name => 'AKIAJUNE6RGIPKQDZ5HQ', #Your SMTP user
-    :password => 'Ah36zm12YwCz6aOijLqsyZrAdrCdzw6tb14pqM8YYzIZ', #Your SMTP password
+    :user_name => Rails.application.credentials.aws[:ses][:user_name], #Your SMTP user
+    :password => Rails.application.credentials.aws[:ses][:password], #Your SMTP password
     :authentication => :login,
     :enable_starttls_auto => true
   }
