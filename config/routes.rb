@@ -8,6 +8,10 @@ Rails.application.routes.draw do
 
   resources :company, only: [:create, :update]
   get '/company', to: 'company#show'
+  delete '/company/:id/user/:user_id', to: 'company#remove_user'
+  post '/company/:id/user', to: 'company#invite_user'
+  get '/invite/:invite_id', to: 'company#add_user'
+
   resources :project, only: [:create, :show, :update, :index]
   post '/project/:id/upload', to: 'project#upload'
   post '/project/:project_id/follow', to: 'follow#create'
