@@ -26,7 +26,7 @@ class Project < ApplicationRecord
         hashids = Hashids.new("this is my salt", 8)
         self.follows.each do |follow|
             follow.update(up_to_date: false)
-            follower_url = "localhost:3000/download/#{hashids.encode(follow.id)}"
+            follower_url = "https://hidden-temple-37504.herokuapp.com/download/#{hashids.encode(follow.id)}"
             ProjectMailer.with(
                 follower_url: follower_url,
                  message: message, 

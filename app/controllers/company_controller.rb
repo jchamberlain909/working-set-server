@@ -52,7 +52,7 @@ class CompanyController < ApplicationController
         company = Company.find(decoded[0])
         user = User.find(decoded[1])
         company.users << user 
-        redirect_to 'localhost:3001/login'
+        redirect_to 'https://working-set.herokuapp.com/login'
     end
 
     def invite_user
@@ -62,7 +62,7 @@ class CompanyController < ApplicationController
         else 
             hashids = Hashids.new("this is my salt", 8)
             company = Company.find(params[:id])
-            join_link = "localhost:3000/invite/#{hashids.encode(company.id,user.id)}"
+            join_link = "https://hidden-temple-37504.herokuapp.com/invite/#{hashids.encode(company.id,user.id)}"
             CompanyMailer.with(email: params[:email],
                             company_name: company.name,
                             join_link: join_link ).user_invite.deliver_later
