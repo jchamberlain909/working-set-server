@@ -5,7 +5,8 @@ class ProjectController < ApplicationController
     def index
         render json:{
             success:true,
-            projects: current_user.projects.map{|project| {id:project.id, name:project.name, last_updated: project.updated_at}}
+            projects: current_user.projects.order(updated_at: :desc).map{|project| 
+                {id:project.id, name:project.name, last_updated: project.updated_at}}
         }
     end
 
@@ -17,12 +18,19 @@ class ProjectController < ApplicationController
     end 
 
     def create
-        project = Project.create(params.permit(:name,:drawing_link))
-        current_user.company.projects << project 
-        render json: {
+        project = Project.create(name: params[:name], company_id: current_user.company_id)
+        if !project.valid?
+            render json: {
+                success: false,
+                message: "Invalid Name"
+            }
+        else
+            current_user.company.projects << project 
+            render json: {
                         success: true, 
                         project: project.serialize
                     }
+        end
     end
 
     def update
@@ -51,6 +59,11 @@ class ProjectController < ApplicationController
             success: true,
             project: @project.serialize
         }
+    end
+
+    def destroy
+        Project.destroy(params[:id])
+        render json: {success: true}
     end
 
     private 

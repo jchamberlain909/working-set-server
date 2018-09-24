@@ -12,10 +12,10 @@ Rails.application.routes.draw do
   post '/company/:id/user', to: 'company#invite_user'
   get '/invite/:invite_id', to: 'company#add_user'
 
-  resources :project, only: [:create, :show, :update, :index]
+  delete '/project/:project_id/follow/:id', to: 'follow#destroy'
+  resources :project, only: [:create, :show, :update, :index, :destroy]
   post '/project/:id/upload', to: 'project#upload'
   post '/project/:project_id/follow', to: 'follow#create'
-  delete '/project/:project_id/follow/:id', to: 'follow#destroy'
   get '/contacts', to: 'contact#index'
 
   get '/download/:follow_id', to: 'follow#download'

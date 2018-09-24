@@ -4,6 +4,8 @@ class Project < ApplicationRecord
     belongs_to :company
     has_one_attached :drawing
 
+    validates :name, presence: true
+
     def serialize
         return {
             id:self.id,

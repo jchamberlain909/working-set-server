@@ -47,7 +47,6 @@ class CompanyController < ApplicationController
     end
 
     def add_user
-        puts params
         hashids = Hashids.new("this is my salt", 8)
         decoded = hashids.decode(params[:invite_id])
         company = Company.find(decoded[0])
@@ -60,15 +59,15 @@ class CompanyController < ApplicationController
         user = User.find_by(email:params[:email])
         if user == nil
             render json: {success: false, message: "There is no user with this email"}
-        end
-        hashids = Hashids.new("this is my salt", 8)
-        company = Company.find(params[:id])
-        join_link = "localhost:3000/invite/#{hashids.encode(company.id,user.id)}"
-        CompanyMailer.with(email: params[:email],
+        else 
+            hashids = Hashids.new("this is my salt", 8)
+            company = Company.find(params[:id])
+            join_link = "localhost:3000/invite/#{hashids.encode(company.id,user.id)}"
+            CompanyMailer.with(email: params[:email],
                             company_name: company.name,
                             join_link: join_link ).user_invite.deliver_later
-        render json: {success: true}
-
+            render json: {success: true}
+        end
     end
 
     def remove_user

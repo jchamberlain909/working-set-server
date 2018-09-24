@@ -8,20 +8,24 @@ class FollowController < ApplicationController
             email: params[:email],
             company_id: current_user.company_id
         )
-        follow = Follow.create(
-            contact_id: contact.id,
-            project_id: params[:project_id],
-            up_to_date: false
-        )
-        
-        render json: {
-            success: true,
-            follower: {
-                id: follow.id,
-                email: contact.email,
+        if !contact.valid?
+            render json: {success:false, message: "Not a valid email address"}
+        else
+            follow = Follow.create(
+                contact_id: contact.id,
+                project_id: params[:project_id],
                 up_to_date: false
+            )
+            
+            render json: {
+                success: true,
+                follower: {
+                    id: follow.id,
+                    email: contact.email,
+                    up_to_date: false
+                }
             }
-        }
+        end
     end
     
 
